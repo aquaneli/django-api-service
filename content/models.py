@@ -14,20 +14,6 @@ class Status(models.Model):
     def __str__(self):
         return self.caption
 
-
-class Profile(models.Model):
-    id = models.IntegerField(primary_key=True)
-    active = models.BooleanField()
-    registered = models.IntegerField()
-    
-    statuses = models.ManyToManyField(Status)
-    
-    last_visit = models.IntegerField()
-    is_admin = models.BooleanField()
-    achives = models.CharField(max_length=100)
-    def __str__(self):
-        return f"Profile(id={self.id}, active={self.active}, registered={self.registered}, statuses={self.statuses}, last_visit={self.last_visit}, is_admin={self.is_admin}, achives={self.achives})"
-
 class Trigger(models.Model):
     cont=models.CharField(max_length=100)
     type=models.CharField(max_length=100)
@@ -51,13 +37,3 @@ class Answer(models.Model):
 #     def __str__(self):
 #         return self.phrase
     
-
-# class UserProfile(models.Model):
-#     id = models.IntegerField(max_length=100)
-#     name = models.CharField(max_length=100)
-#     username = models.CharField(max_length=100)
-#     city = models.CharField(max_length=100)
-#     pswdhache = models.CharField(max_length=100)
-#     profile = Profile
-#     def __str__(self):
-#         return self.triggers

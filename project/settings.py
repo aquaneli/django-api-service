@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'content',
     'states',
     'conversations',
+    'user_info'
 ]
 
 MIDDLEWARE = [

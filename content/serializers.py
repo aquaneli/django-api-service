@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Message, Profile, Status, Answer, Trigger
+from .models import Message, Status, Answer, Trigger
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,12 +11,6 @@ class StatusSerializer(serializers.ModelSerializer):
         fields="__all__"
         model=Status
  
-class ProfileSerializer(serializers.ModelSerializer):
-    statuses = StatusSerializer(read_only=True)
-    class Meta:
-        fields="__all__"
-        model=Profile
-
 class TriggerSerializer(serializers.ModelSerializer):
     class Meta:
         fields="__all__"

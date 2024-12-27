@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from content.views import GetContentHandler
-from content.views import GetProfileHandler
+from user_info.views import GetProfileHandler
 from content.views import GetAnswerHandler
 
 
