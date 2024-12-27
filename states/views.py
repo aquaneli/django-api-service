@@ -6,6 +6,6 @@ from rest_framework.request import Request
 
 # Create your views here.
 
-# @api_view(["GET"])
-# def GetAnswerHandler(request: Request):
-#     int(request.query_params.get('id', 'default'))
+@api_view(["GET"])
+def GetAnswerHandler(request: Request):
+    int(request.query_params.get('id', 'default'))
