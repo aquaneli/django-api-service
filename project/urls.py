@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from botconfig.views import GetBotHandler
+from content.views import GetContentHandler
+from content.views import GetProfileHandler
+from content.views import GetAnswerHandler
 
 
 
@@ -26,6 +28,8 @@ admin.site.site_title = 'Bot Content Managment System'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('botconfig/', GetBotHandler)
+    path('content/', GetContentHandler),
+    path('profiles/', GetProfileHandler),
+    path('answers/', GetAnswerHandler)
 ]
 
