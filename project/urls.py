@@ -19,6 +19,7 @@ from django.urls import path
 from content.views import GetContentHandler
 from user_info.views import GetProfileHandler
 from content.views import GetAnswerHandler
+from states.views import POSTStepHandler
 
 
 
@@ -30,6 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('content/', GetContentHandler),
     path('profiles/', GetProfileHandler),
-    path('answers/', GetAnswerHandler)
+    path('answers/', GetAnswerHandler),
+    path('state/save/', POSTStepHandler)
 ]
 

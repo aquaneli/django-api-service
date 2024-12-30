@@ -30,10 +30,3 @@ class Answer(models.Model):
     def __str__(self):
         return self.answer
 
-# class States(models.Model):
-#     id = models.IntegerField(primary_key=True)
-#     phrase = models.CharField(max_length=100)
-#     trigger = models.ForeignKey(Trigger, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return self.phrase
-    
