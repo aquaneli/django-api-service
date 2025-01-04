@@ -2,8 +2,10 @@ from django.shortcuts import render
 from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .models import Profile
 from django.http.response import JsonResponse
+
+from .models import Profile
+from .models import Status
 
 # Create your views here.
 
@@ -45,3 +47,42 @@ def GetProfileHandler(request: Request):
     except: pass
 
     return JsonResponse(handler_id, safe=False)
+
+
+
+@api_view(["POST"])
+def POSTProfileHandler(request: Request):
+    all_data=request.data
+    p=Profile.objects.create(
+        tgid=int(all_data.get("id")),
+        active=True,
+        is_admin=all_data.get('is_admin', False),
+        achives=all_data.get('achives', "")
+    )
+    
+    for st in all_data["statuses"]:
+        s = Status.objects.create(caption = st["caption"])
+        s.save()
+        p.statuses.add(s)
+        
+    p.save()
+    
+    return JsonResponse(status=status.HTTP_200_OK, data={"status":"Ok"}, safe=False)
+    # resp=[]
+    # resp.append(
+    #     "id": all_data.id,
+    #     "active": true,
+    #     "registered": 10,
+    #     "statuses":{
+    #         "caption":10
+    #     },
+    #     "last_visit": 10,
+    #     "is_admin": true,
+    #     "achives": "field"
+    # ) 
+    # print(all_data)
+    # serializer = ProfileSerializer(data=all_data)
+    # if serializer.is_valid():
+    #     serializer.save()
+    #     return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    # return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

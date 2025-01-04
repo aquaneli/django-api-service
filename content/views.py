@@ -6,8 +6,8 @@ from django.http.response import JsonResponse
 
 from rest_framework import status
 
-from .serializers import MessageSerializer
-from .models import Message
+from .serializers import KeyboardSerializer
+from .models import Keyboard
 
 
 from .serializers import AnswerSerializer
@@ -30,8 +30,8 @@ def GetContentHandler(request: Request):
     try:
         # content = Message.objects.get(triggers=handler_triggers, buttons=handler_buttons,keyboards= handler_keyboards,messages=handler_messages)
         # result.append(content.triggers, content.buttons, content.keyboards, content.messages)
-        content=Message.objects.get(triggers=handler_triggers)
-        serializer = MessageSerializer(content)
+        content=Keyboard.objects.get(triggers=handler_triggers)
+        serializer = KeyboardSerializer(content)
         print(content)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
     except: pass

@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Message, Status, Answer, Trigger
+from .models import Keyboard, Status, Answer, Trigger
 
-class MessageSerializer(serializers.ModelSerializer):
+class KeyboardSerializer(serializers.ModelSerializer):
     class Meta:
         fields="__all__"
-        model=Message
+        model=Keyboard
 
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:

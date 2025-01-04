@@ -9,5 +9,7 @@
 # docker rmi django-api-service-webdjango:latest
 # docker-compose up webdjango
 
-docker-compose rm -f webdjango
+docker-compose down
+docker rm -f django-api-service-webdjango
+docker rmi django-api-service-webdjango
 docker-compose up --build webdjango

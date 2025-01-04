@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Step
+from .models import StateManagment
 
-class StepSerializer(serializers.ModelSerializer):
+class StateManagmentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Step
+        model = StateManagment
         fields = ['profile_id', 'state']

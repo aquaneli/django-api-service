@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework.request import Request
 
-from .serializers import StepSerializer
+from .serializers import StateManagmentSerializer
 from rest_framework import status
 
 
@@ -17,9 +17,9 @@ def GetStepHandler(request: Request):
     
 
 @api_view(["POST"])
-def POSTStepHandler(request: Request):
+def POSTStateHandler(request: Request):
     all_data=request.data
-    serializer = StepSerializer(data=all_data)
+    serializer = StateManagmentSerializer(data=all_data)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)

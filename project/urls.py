@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from content.views import GetContentHandler
-from user_info.views import GetProfileHandler
+from user_info.views import GetProfileHandler, POSTProfileHandler
 from content.views import GetAnswerHandler
-from states.views import POSTStepHandler
+from states.views import POSTStateHandler
 
 
 
@@ -31,7 +31,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('content/', GetContentHandler),
     path('profiles/', GetProfileHandler),
+    path('profiles/save/', POSTProfileHandler),
     path('answers/', GetAnswerHandler),
-    path('state/save/', POSTStepHandler)
+    path('state/save/', POSTStateHandler)
+    
 ]
 
