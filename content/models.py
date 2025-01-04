@@ -6,10 +6,19 @@ from django.db import models
 class Button(models.Model):
     caption=models.CharField(max_length=50)
     callback=models.CharField(max_length=50)
+    def __str__(self):
+        return self.caption
 
 class Keyboard(models.Model):
-    type = models.CharField(max_length=10)
+    TypeChoises = [
+        ('inline', 'inline'),
+        ('reply', 'reply'),
+    ]
+    caption = models.CharField(max_length=100)
+    type = models.CharField(max_length=10, choices=TypeChoises, default='reply')
     buttons=models.ManyToManyField(Button)
+    def __str__(self):
+        return self.caption
 
 class Status(models.Model):
     caption = models.CharField(max_length=100)
@@ -17,8 +26,12 @@ class Status(models.Model):
         return self.caption
 
 class Trigger(models.Model):
+    TypeChoises = [
+        ('cmd', 'cmd'),
+        ('text', 'text'),
+    ] 
     cont=models.CharField(max_length=100)
-    type=models.CharField(max_length=100)
+    type=models.CharField(max_length=5, choices=TypeChoises, default='cmd')
     def __str__(self):
         return self.cont
 
@@ -28,6 +41,8 @@ class Answer(models.Model):
     kb=models.ForeignKey(Keyboard, on_delete=models.SET_NULL, blank=True, null=True)
     state=models.CharField(max_length=100)
     next_state=models.CharField(max_length=100)
+    next_msg=models.ForeignKey('self', related_name='next', on_delete=models.SET_NULL, blank=True, null=True)
+    delay=models.IntegerField(default=0)
     class Meta:
        managed = True
     def __str__(self):

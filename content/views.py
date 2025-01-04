@@ -1,58 +1,57 @@
 from django.shortcuts import render
-
 from rest_framework.decorators import api_view
-
 from django.http.response import JsonResponse
-
 from rest_framework import status
-
 from .serializers import KeyboardSerializer
 from .models import Keyboard
-
-
 from .serializers import AnswerSerializer
 from .models import Answer, Trigger
-
-
-
 from rest_framework.request import Request
 
-
 @api_view(["GET"])
-def GetContentHandler(request: Request):
-    handler_triggers = request.query_params.get('triggers', 'default')
-    # handler_buttons = request.query_params.get('buttons', 'default')
-    # handler_keyboards = request.query_params.get('keyboards', 'default')
-    # handler_messages = request.query_params.get('messages', 'default')
-    # result = []
-    print(handler_triggers)
+def GetTextAnswerHandler(request: Request):
+    handler_triggers = request.query_params.get('text', 'default')
     
     try:
-        # content = Message.objects.get(triggers=handler_triggers, buttons=handler_buttons,keyboards= handler_keyboards,messages=handler_messages)
-        # result.append(content.triggers, content.buttons, content.keyboards, content.messages)
-        content=Keyboard.objects.get(triggers=handler_triggers)
-        serializer = KeyboardSerializer(content)
-        print(content)
+        trigger=Trigger.objects.get(cont=handler_triggers)
+        content=Answer.objects.filter(trigger=trigger).all()
+        serializer = AnswerSerializer(content, many=True) 
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
     except: pass
 
     return JsonResponse(handler_triggers, safe=False)
 
 @api_view(["GET"])
-def GetAnswerHandler(request: Request):
+def GetCMDAnswerHandler(request: Request):
     cmdreq=request.query_params.get('cmd', 'default')
+    print(cmdreq)
     trigger=Trigger.objects.get(cont=cmdreq)
     resp=[]
     try:
         content=Answer.objects.filter(trigger=trigger).all()
         for c in content:
+            buttons = []
+            kb = {}
+            iskb = False
+            if c.kb is not None:
+                iskb = True
+                for b in c.kb.buttons.all():
+                    buttons.append(b.caption)
+                kb.update({
+                    "type": c.kb.type,
+                    "buttons": buttons
+                })
             resp.append(
                 {
+                    "id": c.pk,
                     "answer":c.answer,
-                    "trigger":{
-                        "cont": c.cont,
-                        "type": c.type
-                    }
+                    "isKb": iskb,
+                    "keyboard": kb,
+                    "state": c.state,
+                    "nextState": c.next_state,
+                    "delay": c.delay,
+                    "isNextMsg": c.next_msg is not None,
+                    "nextMsg": c.next_msg.pk if c.next_msg is not None else None
                 }
             )
 
