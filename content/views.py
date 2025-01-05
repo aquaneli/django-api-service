@@ -13,8 +13,8 @@ def GetTextAnswerHandler(request: Request):
     handler_triggers = request.query_params.get('text', 'default')
     resp=[]
     try:
-        trigger=Trigger.objects.get(cont=handler_triggers)
-        content=Answer.objects.filter(trigger=trigger, type="text").all()
+        trigger=Trigger.objects.get(cont=handler_triggers, type="text")
+        content=Answer.objects.filter(trigger=trigger).all()
         for c in content:
             buttons = []
             kb = {}
@@ -49,10 +49,10 @@ def GetTextAnswerHandler(request: Request):
 @api_view(["GET"])
 def GetCMDAnswerHandler(request: Request):
     cmdreq=request.query_params.get('cmd', 'default')
-    trigger=Trigger.objects.get(cont=cmdreq)
+    trigger=Trigger.objects.get(cont=cmdreq, type="cmd")
     resp=[]
     try:
-        content=Answer.objects.filter(trigger=trigger, type="cmd").all()
+        content=Answer.objects.filter(trigger=trigger).all()
         for c in content:
             buttons = []
             kb = {}
