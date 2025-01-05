@@ -11,24 +11,48 @@ from rest_framework.request import Request
 @api_view(["GET"])
 def GetTextAnswerHandler(request: Request):
     handler_triggers = request.query_params.get('text', 'default')
-    
+    resp=[]
     try:
         trigger=Trigger.objects.get(cont=handler_triggers)
-        content=Answer.objects.filter(trigger=trigger).all()
-        serializer = AnswerSerializer(content, many=True) 
-        return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+        content=Answer.objects.filter(trigger=trigger, type="text").all()
+        for c in content:
+            buttons = []
+            kb = {}
+            iskb = False
+            if c.kb is not None:
+                iskb = True
+                for b in c.kb.buttons.all():
+                    buttons.append(b.caption)
+                kb.update({
+                    "type": c.kb.type,
+                    "buttons": buttons
+                })
+            resp.append(
+                {
+                    "id": c.pk,
+                    "answer":c.answer,
+                    "isKb": iskb,
+                    "keyboard": kb,
+                    "state": c.state,
+                    "nextState": c.next_state,
+                    "delay": c.delay,
+                    "isNextMsg": c.next_msg is not None,
+                    "nextMsg": c.next_msg.pk if c.next_msg is not None else None
+                }
+            )
+
+        return JsonResponse(resp, safe=False)
     except: pass
 
-    return JsonResponse(handler_triggers, safe=False)
+    return JsonResponse(resp, safe=False)
 
 @api_view(["GET"])
 def GetCMDAnswerHandler(request: Request):
     cmdreq=request.query_params.get('cmd', 'default')
-    print(cmdreq)
     trigger=Trigger.objects.get(cont=cmdreq)
     resp=[]
     try:
-        content=Answer.objects.filter(trigger=trigger).all()
+        content=Answer.objects.filter(trigger=trigger, type="cmd").all()
         for c in content:
             buttons = []
             kb = {}
