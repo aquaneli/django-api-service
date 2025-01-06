@@ -4,6 +4,48 @@ from .models import Answer, Trigger
 from rest_framework.request import Request
 
 @api_view(["GET"])
+def GetAnswerHandler(request: Request):
+    handler_id = int(request.query_params.get('id', 'default'))
+    resp = {
+        "error": True,
+        "message": "Not found",
+        "data": {},
+    }
+    try:
+        content=Answer.objects.get(pk=handler_id)
+        buttons = []
+        kb = {}
+        if content.kb is not None:
+            for b in content.kb.buttons.all():
+                buttons.append({
+                    "caption": b.caption,
+                    "data": b.callback,
+                    "row": b.row,
+                    "order": b.order
+                })
+            kb.update({
+                "type": content.kb.type,
+                "buttons": buttons
+            })
+        resp.update({
+            "error": False,
+            "message": "Success",
+            "data": {
+                "id": content.pk,
+                "answer":content.answer,
+                "isKb": content.kb is not None,
+                "keyboard": kb,
+                "state": content.state,
+                "nextState": content.next_state,
+                "delay": content.delay,
+                "isNextMsg": content.next_msg is not None,
+                "nextMsg": content.next_msg.pk if content.next_msg is not None else None
+            }
+        })
+    except: pass
+    return JsonResponse(resp, status=status.HTTP_200_OK, safe=False)
+
+@api_view(["GET"])
 def GetTextAnswerHandler(request: Request):
     handler_triggers = request.query_params.get('text', 'default')
     resp=[]
