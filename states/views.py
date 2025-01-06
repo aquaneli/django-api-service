@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 
 from django.http.response import JsonResponse
 from rest_framework.request import Request
 
-from .serializers import StateManagmentSerializer
 from rest_framework import status
 from .models import StateManagment
 
@@ -34,7 +32,15 @@ def POSTStateHandler(request: Request):
         state = StateManagment.objects.get(profile_id=int(data["profile_id"]))
         state.state = data["state"]
         state.save()
-        return JsonResponse("Ok", safe=False)
+        dataresp = {
+            "profile_id": state.profile_id,
+            "state": state.state
+        }
+        return JsonResponse(dataresp, status=status.HTTP_200_OK, safe=False)
     except:
-        StateManagment.objects.create(profile_id=int(data["profile_id"]), state=data["state"])
-        return JsonResponse("Ok", safe=False)
+        state = StateManagment.objects.create(profile_id=int(data["profile_id"]), state=data["state"])
+        dataresp = {
+            "profile_id": state.profile_id,
+            "state": state.state
+        }
+        return JsonResponse(dataresp, status=status.HTTP_201_CREATED, safe=False)
