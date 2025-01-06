@@ -31,10 +31,10 @@ def GetStateHandler(request: Request):
 def POSTStateHandler(request: Request):
     data = request.data
     try:
-        state = StateManagment.objects.get(profile_id=data["profile_id"])
+        state = StateManagment.objects.get(profile_id=int(data["profile_id"]))
         state.state = data["state"]
         state.save()
         return JsonResponse("Ok", safe=False)
     except:
-        StateManagment.objects.create(profile_id=data["profile_id"], state=data["state"])
+        StateManagment.objects.create(profile_id=int(data["profile_id"]), state=data["state"])
         return JsonResponse("Ok", safe=False)
