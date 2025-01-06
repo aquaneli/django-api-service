@@ -3,6 +3,7 @@ from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
+from .serializers import ProfileSerializer
 
 from .models import Profile
 from .models import Status
@@ -12,19 +13,11 @@ from .models import Status
 @api_view(["GET"])
 def GetProfileHandler(request: Request):
     handler_id = int(request.query_params.get('id', 'default'))
-    # handler_active = request.query_params.get('active', 'default')
-    # handler_registered = request.query_params.get('registered', 'default')
-    # handler_statuses = request.query_params.get('statuses', 'default')
-    # handler_last_visit = request.query_params.get('last_visit', 'default')
-    # handler_is_admin = request.query_params.get('is_admin', 'default')
-    # handler_achives = request.query_params.get('achives', 'default')
-    # handler_name = request.query_params.get('name', 'default')
-    # print(handler_id)
+    resp = {
+        "error": True,
+        "message": "Not found"
+    }
     try:
-        # content = Profile.objects.get(id=handler_id, active=handler_active, 
-        #                               registered=handler_registered,statuses=handler_statuses, 
-        #                               last_visit=handler_last_visit,is_admin=handler_is_admin,
-        #                               achives=handler_achives,name=handler_name)
         content= Profile.objects.get(id=handler_id)
         sts = []
         statuses = content.statuses.all()
@@ -33,7 +26,7 @@ def GetProfileHandler(request: Request):
             sts.append(s.caption)
         print(sts)
         
-        resp = {
+        result = {
             "id": content.id,
             "active": content.active,
             "registered": content.registered,
@@ -42,6 +35,11 @@ def GetProfileHandler(request: Request):
             "is_admin": content.is_admin,
             "achives": content.achives
         }
+        resp.update({
+            "error": False,
+            "message": "Ok",
+            "data": result
+        })
 
         return JsonResponse(resp, status=status.HTTP_200_OK, safe=False)
     except: pass
@@ -67,22 +65,4 @@ def POSTProfileHandler(request: Request):
         
     p.save()
     
-    return JsonResponse(status=status.HTTP_200_OK, data={"status":"Ok"}, safe=False)
-    # resp=[]
-    # resp.append(
-    #     "id": all_data.id,
-    #     "active": true,
-    #     "registered": 10,
-    #     "statuses":{
-    #         "caption":10
-    #     },
-    #     "last_visit": 10,
-    #     "is_admin": true,
-    #     "achives": "field"
-    # ) 
-    # print(all_data)
-    # serializer = ProfileSerializer(data=all_data)
-    # if serializer.is_valid():
-    #     serializer.save()
-    #     return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-    # return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse(status=status.HTTP_200_OK, data=ProfileSerializer(p).data, safe=False)
