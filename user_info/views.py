@@ -43,7 +43,7 @@ def GetProfileHandler(request: Request):
         return JsonResponse(resp, status=status.HTTP_200_OK, safe=False)
     except: pass
 
-    return JsonResponse(resp, safe=False)
+    return JsonResponse(resp, status=status.HTTP_404_NOT_FOUND, safe=False)
 
 
 
