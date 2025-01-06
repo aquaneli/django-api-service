@@ -25,7 +25,7 @@ def GetProfileHandler(request: Request):
         print(sts)
         
         result = {
-            "id": content.id,
+            "id": content.tgid,
             "active": content.active,
             "registered": content.registered,
             "statuses": sts,
@@ -42,7 +42,7 @@ def GetProfileHandler(request: Request):
         return JsonResponse(resp, status=status.HTTP_200_OK, safe=False)
     except: pass
 
-    return JsonResponse(handler_id, safe=False)
+    return JsonResponse(resp, safe=False)
 
 
 
