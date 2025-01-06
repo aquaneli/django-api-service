@@ -6,6 +6,8 @@ from django.db import models
 class Button(models.Model):
     caption=models.CharField(max_length=50)
     callback=models.CharField(max_length=50)
+    row=models.IntegerField(default=0)
+    order=models.IntegerField(default=0) 
     def __str__(self):
         return self.caption
 

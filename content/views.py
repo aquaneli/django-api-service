@@ -49,13 +49,18 @@ def GetCMDAnswerHandler(request: Request):
     try:
         content=Answer.objects.filter(trigger=trigger).all()
         for c in content:
-            buttons = []
+            buttons = {}
             kb = {}
             iskb = False
             if c.kb is not None:
                 iskb = True
                 for b in c.kb.buttons.all():
-                    buttons.append(b.caption)
+                    buttons.update({
+                        "caption": b.caption,
+                        "data": b.callback,
+                        "row": b.row,
+                        "order": b.order
+                    })
                 kb.update({
                     "type": c.kb.type,
                     "buttons": buttons

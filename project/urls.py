@@ -34,6 +34,5 @@ urlpatterns = [
     path('profiles/save/', POSTProfileHandler),
     path('answers/cmd/', GetCMDAnswerHandler),
     path('state/save/', POSTStateHandler)
-    
 ]
 
