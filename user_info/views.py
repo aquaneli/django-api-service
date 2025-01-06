@@ -16,7 +16,7 @@ def GetProfileHandler(request: Request):
         "message": "Not found"
     }
     try:
-        content= Profile.objects.get(id=handler_id)
+        content= Profile.objects.get(tgid=handler_id)
         sts = []
         statuses = content.statuses.all()
         for s in statuses:
