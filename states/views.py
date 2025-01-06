@@ -17,7 +17,11 @@ def GetStateHandler(request: Request):
     handler_id = int(request.query_params.get('id'))
     try:
         state = StateManagment.objects.get(profile_id=handler_id)
-        return JsonResponse(state.state, safe=False)
+        resp = {
+            "profile_id": state.profile_id,
+            "state": state.state
+        }
+        return JsonResponse(resp, safe=False)
     except:
         return JsonResponse("None", safe=False)
     
