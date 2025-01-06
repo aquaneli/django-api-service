@@ -1,11 +1,12 @@
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from .models import Answer, Trigger
+from rest_framework import status
 from rest_framework.request import Request
 
 @api_view(["GET"])
 def GetAnswerHandler(request: Request):
-    handler_id = int(request.query_params.get('id', 'default'))
+    handler_id = int(request.query_params.get('id', '0'))
     resp = {
         "error": True,
         "message": "Not found",
