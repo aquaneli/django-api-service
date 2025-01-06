@@ -11,7 +11,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model=Profile
         
 class UserProfileSerializer(serializers.ModelSerializer):
-    statuses = StatusSerializer(read_only=True)
+    statuses = StatusSerializer(read_only=True, many=True)
     class Meta:
         fields="__all__"
         model=UserProfile

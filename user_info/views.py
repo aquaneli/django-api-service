@@ -63,7 +63,7 @@ def POSTProfileHandler(request: Request):
         
     p.save()
     data = {
-        "id": p.id,
+        "id": p.tgid,
         "active": p.active,
         "registered": p.registered,
         "statuses": [s.caption for s in p.statuses.all()],
