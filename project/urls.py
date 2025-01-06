@@ -19,7 +19,7 @@ from django.urls import path
 from content.views import GetTextAnswerHandler 
 from user_info.views import GetProfileHandler, POSTProfileHandler
 from content.views import GetCMDAnswerHandler
-from states.views import POSTStateHandler
+from states.views import POSTStateHandler, GetStateHandler
 
 
 
@@ -33,6 +33,7 @@ urlpatterns = [
     path('profiles/', GetProfileHandler),
     path('profiles/save/', POSTProfileHandler),
     path('answers/cmd/', GetCMDAnswerHandler),
-    path('state/save/', POSTStateHandler)
+    path('states/update/', POSTStateHandler),
+    path('states/', GetStateHandler),
 ]
 

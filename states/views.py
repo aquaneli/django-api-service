@@ -6,21 +6,31 @@ from rest_framework.request import Request
 
 from .serializers import StateManagmentSerializer
 from rest_framework import status
+from .models import StateManagment
 
 
 
 # Create your views here.
 
 @api_view(["GET"])
-def GetStepHandler(request: Request):
-    return int(request.query_params.get('id', 'default'))
+def GetStateHandler(request: Request):
+    handler_id = int(request.query_params.get('id'))
+    try:
+        state = StateManagment.objects.get(profile_id=handler_id)
+        return JsonResponse(state.state, safe=False)
+    except:
+        return JsonResponse("None", safe=False)
+    
     
 
 @api_view(["POST"])
 def POSTStateHandler(request: Request):
-    all_data=request.data
-    serializer = StateManagmentSerializer(data=all_data)
-    if serializer.is_valid():
-        serializer.save()
-        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    data = request.data
+    try:
+        state = StateManagment.objects.get(profile_id=data["profile_id"])
+        state.state = data["state"]
+        state.save()
+        return JsonResponse("Ok", safe=False)
+    except:
+        StateManagment.objects.create(profile_id=data["profile_id"], state=data["state"])
+        return JsonResponse("Ok", safe=False)
