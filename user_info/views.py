@@ -57,9 +57,13 @@ def ProfileHandler(request: Request):
             )
     
             for st in all_data["statuses"]:
-                s = Status.objects.create(caption = st["caption"])
-                s.save()
-                p.statuses.add(s)
+                try:
+                    s = Status.objects.get(caption = st["caption"])
+                    p.statuses.add(s)
+                    continue
+                except: 
+                    s = Status.objects.create(caption = st["caption"])
+                    p.statuses.add(s)
                 
             p.save()
             data = {
