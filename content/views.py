@@ -1,10 +1,5 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from rest_framework import status
-from .serializers import KeyboardSerializer
-from .models import Keyboard
-from .serializers import AnswerSerializer
 from .models import Answer, Trigger
 from rest_framework.request import Request
 

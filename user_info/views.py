@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from .serializers import ProfileSerializer
 
 from .models import Profile
 from .models import Status
@@ -64,5 +62,14 @@ def POSTProfileHandler(request: Request):
         p.statuses.add(s)
         
     p.save()
+    data = {
+        "id": p.id,
+        "active": p.active,
+        "registered": p.registered,
+        "statuses": [s.caption for s in p.statuses.all()],
+        "last_visit": p.last_visit,
+        "is_admin": p.is_admin,
+        "achives": p.achives
+    }
     
-    return JsonResponse(status=status.HTTP_200_OK, data=ProfileSerializer(p).data, safe=False)
+    return JsonResponse(status=status.HTTP_200_OK, data=data, safe=False)
