@@ -13,7 +13,8 @@ def GetProfileHandler(request: Request):
     handler_id = int(request.query_params.get('id', 'default'))
     resp = {
         "error": True,
-        "message": "Not found"
+        "message": "Not found",
+        "data": {},
     }
     try:
         content= Profile.objects.get(tgid=handler_id)
