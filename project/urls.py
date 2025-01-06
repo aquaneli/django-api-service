@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from content.views import GetTextAnswerHandler 
-from user_info.views import GetProfileHandler, POSTProfileHandler
+from user_info.views import ProfileHandler
 from content.views import GetCMDAnswerHandler
 from states.views import StateHandler
 
@@ -30,8 +30,8 @@ admin.site.site_title = 'Bot Content Managment System'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('answers/txt/', GetTextAnswerHandler),
-    path('profiles/', GetProfileHandler),
-    path('profiles/save/', POSTProfileHandler),
+    path('profiles/', ProfileHandler),
+    # path('profiles/save/', POSTProfileHandler),
     path('answers/cmd/', GetCMDAnswerHandler),
     # path('states/update/', POSTStateHandler),
     path('states/', StateHandler),
