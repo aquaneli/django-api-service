@@ -5,7 +5,7 @@ from django.db import models
 
 class Button(models.Model):
     caption=models.CharField(max_length=50)
-    callback=models.CharField(max_length=50)
+    callback=models.CharField(max_length=50, blank=True, null=True)
     row=models.IntegerField(default=0)
     order=models.IntegerField(default=0)
     
@@ -59,10 +59,10 @@ class Trigger(models.Model):
 
 class Answer(models.Model):
     answer = models.CharField(max_length=100)
-    trigger = models.ForeignKey(Trigger, on_delete=models.CASCADE)
+    trigger = models.ForeignKey(Trigger, on_delete=models.SET_NULL, default=None, null=True) 
     kb=models.ForeignKey(Keyboard, on_delete=models.SET_NULL, blank=True, null=True)
-    state=models.CharField(max_length=100)
-    next_state=models.CharField(max_length=100)
+    state=models.CharField(max_length=100, blank=True, null=True)
+    next_state=models.CharField(max_length=100, blank=True, null=True)
     next_msg=models.ForeignKey('self', related_name='next', on_delete=models.SET_NULL, blank=True, null=True)
     delay=models.IntegerField(default=0)
     class Meta:
