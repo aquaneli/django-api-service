@@ -10,7 +10,7 @@ class ContentAdminStatus(admin.ModelAdmin):
 @admin.register(Profile)
 class ContentAdminProfile(admin.ModelAdmin):
     list_display = ["tgid", "active", "is_admin"]
-    list_filter = ["active", "is_admin"]
+    list_filter = ["active", "is_admin", "statuses"]
 
 @admin.register(UserProfile)
 class ContentAdminUserProfile(admin.ModelAdmin):
