@@ -1,8 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-
 class Button(models.Model):
     caption=models.CharField(max_length=50)
     callback=models.CharField(max_length=50, blank=True, null=True)

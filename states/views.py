@@ -6,10 +6,6 @@ from rest_framework.request import Request
 from rest_framework import status
 from .models import StateManagment
 
-
-
-# Create your views here.
-
 @api_view(["GET", "POST", "PATCH"])
 def StateHandler(request: Request):
     if request.method == "GET":

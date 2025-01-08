@@ -6,26 +6,45 @@ from django.http.response import JsonResponse
 from .models import Profile
 from .models import Status
 
-# Create your views here.
-
 @api_view(["GET", "POST"])
 def ProfileHandler(request: Request):
     match request.method:
         case "GET":
-            handler_id = int(request.query_params.get('id', 'default'))
+            handler_id = int(request.query_params.get('id', '-1'))
             resp = {
                 "error": True,
                 "message": "Not found",
                 "data": {},
             }
+            if handler_id == -1:
+                profiles = Profile.objects.all()
+                result = []
+                for p in profiles:
+                    sts = []
+                    statuses = p.statuses.all()
+                    for s in statuses:
+                        sts.append(s.caption)
+                    result.append({
+                        "id": p.tgid,
+                        "active": p.active,
+                        "registered": p.registered,
+                        "statuses": sts,
+                        "last_visit": p.last_visit,
+                        "is_admin": p.is_admin,
+                        "achives": p.achives
+                    })
+                resp.update({
+                    "error": False,
+                    "message": "Ok",
+                    "data": result
+                })
+                return JsonResponse(resp, status=status.HTTP_200_OK, safe=False)
             try:
                 content= Profile.objects.get(tgid=handler_id)
                 sts = []
                 statuses = content.statuses.all()
                 for s in statuses:
-                    print(s)
                     sts.append(s.caption)
-                print(sts)
                 
                 result = {
                     "id": content.tgid,

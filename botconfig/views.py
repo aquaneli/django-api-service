@@ -7,7 +7,6 @@ import rest_framework.request
 from .serializers import BotConfigSerializer
 from .models import BotConfig
 
-# Create your views here.
 @api_view(["GET"])
 def GetBotHandler(request: rest_framework.request):
     bot_caption = request.query_params.get('caption', 'default')
@@ -18,4 +17,3 @@ def GetBotHandler(request: rest_framework.request):
     except: pass
 
     return JsonResponse(token, safe=False)
-
