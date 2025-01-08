@@ -32,7 +32,7 @@ def ProfileHandler(request: Request):
                         "statuses": sts,
                         "last_visit": p.last_visit,
                         "is_admin": p.is_admin,
-                        "achives": p.achives
+                        "achives": [a.caption for a in p.achives.all()]
                     })
                 resp.update({
                     "error": False,

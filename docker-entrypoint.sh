@@ -18,7 +18,7 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser --noinput --username master --email 'asd@dsa.com'
 python manage.py collectstatic --noinput --clear
-# python -m gunicorn project.wsgi:application --bind 0.0.0.0:8000
+python -m gunicorn project.wsgi:application --bind 0.0.0.0:8000
 export DJANGO_SETTINGS_MODULE=project.settings
 
 exec "$@"

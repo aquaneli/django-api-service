@@ -12,4 +12,5 @@
 docker compose down
 docker rm -f django-api-service-webdjango
 docker rmi django-api-service-webdjango
-docker compose up --build webdjango
+docker rmi django-api-service-nginx
+docker compose up --build
