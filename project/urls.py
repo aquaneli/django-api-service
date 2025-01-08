@@ -16,10 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from content.views import GetContentHandler
-from user_info.views import GetProfileHandler, POSTProfileHandler
-from content.views import GetAnswerHandler
-from states.views import POSTStateHandler
+from content.views import GetCMDAnswerHandler, GetTextAnswerHandler, GetAnswerHandler
+from user_info.views import ProfileHandler
+from states.views import StateHandler
 
 
 
@@ -29,11 +28,12 @@ admin.site.site_title = 'Bot Content Managment System'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('content/', GetContentHandler),
-    path('profiles/', GetProfileHandler),
-    path('profiles/save/', POSTProfileHandler),
     path('answers/', GetAnswerHandler),
-    path('state/save/', POSTStateHandler)
-    
+    path('answers/txt/', GetTextAnswerHandler),
+    path('profiles/', ProfileHandler),
+    # path('profiles/save/', POSTProfileHandler),
+    path('answers/cmd/', GetCMDAnswerHandler),
+    # path('states/update/', POSTStateHandler),
+    path('states/', StateHandler),
 ]
 

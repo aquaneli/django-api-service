@@ -1,9 +1,12 @@
 from django.db import models
 
-# Create your models here.
-
 class Status(models.Model):
     caption = models.CharField(max_length=100)
+    
+    class Meta:
+       verbose_name = 'Статус'
+       verbose_name_plural = 'Статусы'
+       
     def __str__(self):
         return self.caption
 
@@ -15,8 +18,13 @@ class Profile(models.Model):
     last_visit = models.DateTimeField(auto_created=True , auto_now=True)
     is_admin = models.BooleanField()
     achives = models.CharField(max_length=100, blank=True, null=True)
+    
+    class Meta:
+       verbose_name = 'Профиль'
+       verbose_name_plural = 'Профили'
+        
     def __str__(self):
-        return f"Profile(id={self.tgid}, active={self.active}, registered={self.registered}, statuses={self.statuses}, last_visit={self.last_visit}, is_admin={self.is_admin}, achives={self.achives})"
+        return str(self.tgid)
 
 class UserProfile(models.Model):
     name = models.CharField(max_length=100)
@@ -24,5 +32,10 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=100)
     pswdhache = models.CharField(max_length=100)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    
+    class Meta:
+       verbose_name = 'Учетная запись'
+       verbose_name_plural = 'Учетные записи'
+       
     def __str__(self):
         return self.name
