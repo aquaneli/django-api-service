@@ -5,6 +5,7 @@ from django.http.response import JsonResponse
 
 from .models import Profile
 from .models import Status
+from .models import Achive
 
 @api_view(["GET", "POST"])
 def ProfileHandler(request: Request):
@@ -42,6 +43,9 @@ def ProfileHandler(request: Request):
             try:
                 content= Profile.objects.get(tgid=handler_id)
                 sts = []
+                achives = []
+                for a in content.achives.all():
+                    achives.append(a.caption)
                 statuses = content.statuses.all()
                 for s in statuses:
                     sts.append(s.caption)
@@ -53,7 +57,7 @@ def ProfileHandler(request: Request):
                     "statuses": sts,
                     "last_visit": content.last_visit,
                     "is_admin": content.is_admin,
-                    "achives": content.achives
+                    "achives": achives
                 }
                 resp.update({
                     "error": False,
@@ -67,13 +71,26 @@ def ProfileHandler(request: Request):
             return JsonResponse(resp, status=status.HTTP_404_NOT_FOUND, safe=False)
         
         case "POST":
+            
             all_data=request.data
+            try:
+                p = Profile.objects.get(tgid=int(all_data.get("id")))
+                return JsonResponse(status=status.HTTP_409_CONFLICT, data={"message": "Profile with this id already exists"}, safe=False)
+            except: pass
             p=Profile.objects.create(
                 tgid=int(all_data.get("id")),
                 active=True,
                 is_admin=all_data.get('is_admin', False),
-                achives=all_data.get('achives', "")
             )
+            
+            for a in all_data["achives"]:
+                try:
+                    a = Achive.objects.get(caption = a["caption"])
+                    p.achives.add(a)
+                    continue
+                except: 
+                    a = Achive.objects.create(caption = a["caption"])
+                    p.achives.add(a)
     
             for st in all_data["statuses"]:
                 try:
@@ -92,7 +109,7 @@ def ProfileHandler(request: Request):
                 "statuses": [s.caption for s in p.statuses.all()],
                 "last_visit": p.last_visit,
                 "is_admin": p.is_admin,
-                "achives": p.achives
+                "achives": [a.caption for a in p.achives.all()]
             }
             
             return JsonResponse(status=status.HTTP_200_OK, data=data, safe=False)
