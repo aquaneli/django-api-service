@@ -1,3 +1,4 @@
+import datetime
 from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -6,6 +7,17 @@ from django.http.response import JsonResponse
 from .models import Profile
 from .models import Status
 from .models import Achive
+
+@api_view(["PATCH"])
+def ProfileUpdateHandler(request: Request):
+    data = request.data
+    try:
+        p = Profile.objects.get(tgid=int(data["id"]))
+        p.last_visit = datetime.datetime.now()
+        p.save()
+        return JsonResponse(status=status.HTTP_200_OK, data={"message": "Success"}, safe=False)
+    except: 
+        return JsonResponse(status=status.HTTP_404_NOT_FOUND, data={"message": "Profile not found"}, safe=False)
 
 @api_view(["GET", "POST"])
 def ProfileHandler(request: Request):
@@ -85,20 +97,20 @@ def ProfileHandler(request: Request):
             
             for a in all_data["achives"]:
                 try:
-                    a = Achive.objects.get(caption = a["caption"])
+                    a = Achive.objects.get(caption = a)
                     p.achives.add(a)
                     continue
                 except: 
-                    a = Achive.objects.create(caption = a["caption"])
+                    a = Achive.objects.create(caption = a)
                     p.achives.add(a)
     
             for st in all_data["statuses"]:
                 try:
-                    s = Status.objects.get(caption = st["caption"])
+                    s = Status.objects.get(caption = st)
                     p.statuses.add(s)
                     continue
                 except: 
-                    s = Status.objects.create(caption = st["caption"])
+                    s = Status.objects.create(caption = st)
                     p.statuses.add(s)
                 
             p.save()
