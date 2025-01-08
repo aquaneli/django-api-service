@@ -9,6 +9,16 @@ class Status(models.Model):
        
     def __str__(self):
         return self.caption
+    
+class Achive(models.Model):
+    caption = models.CharField(max_length=100)
+    
+    class Meta:
+       verbose_name = 'Достижение'
+       verbose_name_plural = 'Достижения'
+       
+    def __str__(self):
+        return self.caption
 
 class Profile(models.Model):
     tgid = models.IntegerField(primary_key=True)
@@ -17,7 +27,7 @@ class Profile(models.Model):
     statuses = models.ManyToManyField(Status, blank=True)
     last_visit = models.DateTimeField(auto_created=True , auto_now=True)
     is_admin = models.BooleanField()
-    achives = models.CharField(max_length=100, blank=True, null=True)
+    achives = models.ManyToManyField(Achive, blank=True)
     
     class Meta:
        verbose_name = 'Профиль'

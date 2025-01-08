@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, UserProfile, Status
+from .models import Profile, UserProfile, Status, Achive
 
 # Register your models here.
 
@@ -15,4 +15,7 @@ class ContentAdminProfile(admin.ModelAdmin):
 @admin.register(UserProfile)
 class ContentAdminUserProfile(admin.ModelAdmin):
     list_display = ["name", "username", "city", "pswdhache", "profile"]
-    
+
+@admin.register(Achive)
+class ContentAdminAchive(admin.ModelAdmin):
+    list_display = ["caption"]
