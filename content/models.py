@@ -43,7 +43,7 @@ class Trigger(models.Model):
     TypeChoises = [
         ('cmd', 'cmd'),
         ('text', 'text'),
-        ('callback', 'callback'),
+        ('callback', 'clbk'),
     ]
     cont=models.CharField(max_length=100)
     type=models.CharField(max_length=10, choices=TypeChoises, default='cmd')
