@@ -134,7 +134,7 @@ def GetCMDAnswerHandler(request: Request):
 @api_view(["GET"])
 def GetCallbackAnswerHandler(request: Request):
     callbackreq=request.query_params.get('callback', 'default')
-    trigger=Trigger.objects.get(cont=callbackreq, type="callback")
+    trigger=Trigger.objects.get(cont=callbackreq, type="clbck")
     resp=[]
     try:
         content=Answer.objects.filter(trigger=trigger).all()
