@@ -43,9 +43,9 @@ services:
       - db
     networks:
       - djangonetwork
-  networks:
-    djangonetwork:
-      driver: bridge
-  volumes:
-    pgdata:
-    appdata:
+networks:
+  djangonetwork:
+    driver: bridge
+volumes:
+  pgdata:
+  appdata:
