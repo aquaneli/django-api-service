@@ -46,7 +46,7 @@ class Trigger(models.Model):
         ('callback', 'callback'),
     ]
     cont=models.CharField(max_length=100)
-    type=models.CharField(max_length=5, choices=TypeChoises, default='cmd')
+    type=models.CharField(max_length=10, choices=TypeChoises, default='cmd')
     
     class Meta:
         verbose_name = 'Триггер'
