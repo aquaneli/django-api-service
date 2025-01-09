@@ -17,6 +17,7 @@ class Keyboard(models.Model):
     TypeChoises = [
         ('inline', 'inline'),
         ('reply', 'reply'),
+        ('callback', 'callback'),
     ]
     caption = models.CharField(max_length=100)
     type = models.CharField(max_length=10, choices=TypeChoises, default='reply')

@@ -130,3 +130,45 @@ def GetCMDAnswerHandler(request: Request):
         return JsonResponse(resp, safe=False)
     except: pass
     return JsonResponse(resp, safe=False)
+
+@api_view(["GET"])
+def GetCallbackAnswerHandler(request: Request):
+    callbackreq=request.query_params.get('callback', 'default')
+    trigger=Trigger.objects.get(cont=callbackreq, type="callback")
+    resp=[]
+    try:
+        content=Answer.objects.filter(trigger=trigger).all()
+        for c in content:
+            buttons = []
+            kb = {}
+            iskb = False
+            if c.kb is not None:
+                iskb = True
+                for b in c.kb.buttons.all():
+                    buttons.append({
+                        "caption": b.caption,
+                        "data": b.callback,
+                        "row": b.row,
+                        "order": b.order
+                    })
+                kb.update({
+                    "type": c.kb.type,
+                    "buttons": buttons
+                })
+            resp.append(
+                {
+                    "id": c.pk,
+                    "answer":c.answer,
+                    "isKb": iskb,
+                    "keyboard": kb,
+                    "state": c.state,
+                    "nextState": c.next_state,
+                    "delay": c.delay,
+                    "isNextMsg": c.next_msg is not None,
+                    "nextMsg": c.next_msg.pk if c.next_msg is not None else None
+                }
+            )
+
+        return JsonResponse(resp, safe=False)
+    except: pass
+    return JsonResponse(resp, safe=False)

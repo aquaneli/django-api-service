@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from content.views import GetCMDAnswerHandler, GetTextAnswerHandler, GetAnswerHandler
+from content.views import GetCMDAnswerHandler, GetTextAnswerHandler, GetAnswerHandler, GetCallbackAnswerHandler
 from user_info.views import ProfileHandler, ProfileUpdateHandler
 from states.views import StateHandler
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('answers/txt/', GetTextAnswerHandler),
     path('answers/cmd/', GetCMDAnswerHandler),
+    path('answers/clb/', GetCallbackAnswerHandler), 
     path('answers/', GetAnswerHandler),
     path('profiles/lvupdate/', ProfileUpdateHandler), 
     path('profiles/', ProfileHandler),
