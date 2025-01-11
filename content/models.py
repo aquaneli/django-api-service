@@ -70,3 +70,13 @@ class Answer(models.Model):
     def __str__(self):
         return self.answer
 
+class MessageGroup(models.Model):
+    name=models.CharField(max_length=100)
+    messages=models.ManyToManyField(Answer, blank=True, related_name='group')
+    
+    class Meta:
+        verbose_name = 'Группа сообщений'
+        verbose_name_plural = 'Группы сообщений'
+        
+    def __str__(self):
+        return self.name

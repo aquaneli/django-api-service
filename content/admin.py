@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Keyboard, Button
-from .models import Status, Answer, Trigger
+from .models import Status, Answer, Trigger, MessageGroup
 
 # Register your models here.
 @admin.register(Keyboard)
@@ -18,9 +18,13 @@ class ContentAdminStatus(admin.ModelAdmin):
 @admin.register(Answer)
 class ContentAdminAnswer(admin.ModelAdmin):
     list_display = ["id", "answer", "kb" ,"trigger", "state"]
-    list_filter = ["state", "trigger"]
+    list_filter = ["state", "trigger", "group"]
     link = "answer"
     
 @admin.register(Trigger)
 class ContentAdminTrigger(admin.ModelAdmin):
     list_display = ["cont", "type"]
+    
+@admin.register(MessageGroup) 
+class ContentAdminMessageGroup(admin.ModelAdmin):
+    list_display = ["name"]
