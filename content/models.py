@@ -75,7 +75,7 @@ class Condition(models.Model):
         return self.caption
 
 class Answer(models.Model):
-    answer = models.CharField(max_length=100)
+    answer = models.CharField(max_length=500)
     trigger = models.ForeignKey(Trigger, on_delete=models.SET_NULL, default=None, null=True) 
     kb=models.ForeignKey(Keyboard, on_delete=models.SET_NULL, blank=True, null=True)
     state=models.CharField(max_length=100, blank=True, null=True)

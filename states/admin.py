@@ -9,3 +9,4 @@ class ContentAdminStateManagment(admin.ModelAdmin):
 @admin.register(Variable)
 class ContentAdminVariable(admin.ModelAdmin):
     list_display = ["name", "value", "profile_id"]
+    filter_list = ["name", "value", "profile_id"] 
