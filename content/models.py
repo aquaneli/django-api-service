@@ -55,14 +55,37 @@ class Trigger(models.Model):
     def __str__(self):
         return self.cont
 
+class Condition(models.Model):
+    logic = [
+        ('=', 'равно'),
+        ('!=', 'не равно'),
+        ('>', 'больше'),
+        ('<', 'меньше'),
+    ]
+    caption = models.CharField(max_length=100)
+    variable = models.CharField(max_length=100)
+    operation = models.CharField(max_length=5, choices=logic, default='=')
+    value = models.CharField(max_length=100)
+    
+    class Meta:
+        verbose_name = 'Условие'
+        verbose_name_plural = 'Условия'
+        
+    def __str__(self):
+        return self.caption
+
 class Answer(models.Model):
     answer = models.CharField(max_length=100)
     trigger = models.ForeignKey(Trigger, on_delete=models.SET_NULL, default=None, null=True) 
     kb=models.ForeignKey(Keyboard, on_delete=models.SET_NULL, blank=True, null=True)
     state=models.CharField(max_length=100, blank=True, null=True)
     next_state=models.CharField(max_length=100, blank=True, null=True)
+    conditions=models.ManyToManyField(Condition, blank=True, related_name='conditions')
+    set_variable=models.CharField(max_length=100, blank=True, null=True)
+    set_value=models.CharField(max_length=100, blank=True, null=True)
     next_msg=models.ForeignKey('self', related_name='next', on_delete=models.SET_NULL, blank=True, null=True)
     delay=models.IntegerField(default=0)
+    
     class Meta:
         verbose_name = 'Ответ'
         verbose_name_plural = 'Ответы'

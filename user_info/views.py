@@ -62,7 +62,7 @@ def ProfileHandler(request: Request):
                 for s in statuses:
                     sts.append(s.caption)
                 
-                result = {
+                result = [{
                     "id": content.tgid,
                     "active": content.active,
                     "registered": content.registered,
@@ -70,7 +70,7 @@ def ProfileHandler(request: Request):
                     "last_visit": content.last_visit,
                     "is_admin": content.is_admin,
                     "achives": achives
-                }
+                }]
                 resp.update({
                     "error": False,
                     "message": "Ok",

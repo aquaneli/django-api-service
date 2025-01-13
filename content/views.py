@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from .models import Answer, Trigger
+from .models import Answer, Trigger, Condition
 from rest_framework import status
 from rest_framework.request import Request
 
@@ -28,6 +28,15 @@ def GetAnswerHandler(request: Request):
                 "type": content.kb.type,
                 "buttons": buttons
             })
+        conditions = []
+        if content.conditions is not None:
+            for cond in content.conditions.all():
+                conditions.append({
+                    "caption": cond.caption,
+                    "variable": cond.variable,
+                    "operation": cond.operation,
+                    "value": cond.value
+                })
         resp.update({
             "error": False,
             "message": "Success",
@@ -36,6 +45,9 @@ def GetAnswerHandler(request: Request):
                 "answer":content.answer,
                 "isKb": content.kb is not None,
                 "keyboard": kb,
+                "conditions": conditions,
+                "set_variable": content.set_variable,
+                "set_value": content.set_value,
                 "state": content.state,
                 "nextState": content.next_state,
                 "delay": content.delay,
@@ -70,12 +82,24 @@ def GetTextAnswerHandler(request: Request):
                     "type": c.kb.type,
                     "buttons": buttons
                 })
+            conditions = []
+            if c.conditions is not None:
+                for cond in c.conditions.all():
+                    conditions.append({
+                        "caption": cond.caption,
+                        "variable": cond.variable,
+                        "operation": cond.operation,
+                        "value": cond.value
+                    })
             resp.append(
                 {
                     "id": c.pk,
                     "answer":c.answer,
                     "isKb": iskb,
                     "keyboard": kb,
+                    "conditions": conditions,
+                    "set_variable": c.set_variable,
+                    "set_value": c.set_value,
                     "state": c.state,
                     "nextState": c.next_state,
                     "delay": c.delay,
@@ -113,12 +137,24 @@ def GetCMDAnswerHandler(request: Request):
                     "type": c.kb.type,
                     "buttons": buttons
                 })
+            conditions = []
+            if c.conditions is not None:
+                for cond in c.conditions.all():
+                    conditions.append({
+                        "caption": cond.caption,
+                        "variable": cond.variable,
+                        "operation": cond.operation,
+                        "value": cond.value
+                    })
             resp.append(
                 {
                     "id": c.pk,
                     "answer":c.answer,
                     "isKb": iskb,
                     "keyboard": kb,
+                    "conditions": conditions,
+                    "set_variable": c.set_variable,
+                    "set_value": c.set_value,
                     "state": c.state,
                     "nextState": c.next_state,
                     "delay": c.delay,
@@ -155,12 +191,24 @@ def GetCallbackAnswerHandler(request: Request):
                     "type": c.kb.type,
                     "buttons": buttons
                 })
+            conditions = []
+            if c.conditions is not None:
+                for cond in c.conditions.all():
+                    conditions.append({
+                        "caption": cond.caption,
+                        "variable": cond.variable,
+                        "operation": cond.operation,
+                        "value": cond.value
+                    })
             resp.append(
                 {
                     "id": c.pk,
                     "answer":c.answer,
                     "isKb": iskb,
                     "keyboard": kb,
+                    "conditions": conditions,
+                    "set_variable": c.set_variable,
+                    "set_value": c.set_value,
                     "state": c.state,
                     "nextState": c.next_state,
                     "delay": c.delay,

@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from content.views import GetCMDAnswerHandler, GetTextAnswerHandler, GetAnswerHandler, GetCallbackAnswerHandler
 from user_info.views import ProfileHandler, ProfileUpdateHandler
-from states.views import StateHandler
+from states.views import StateHandler, VariableHandler
 
 
 
@@ -32,8 +32,8 @@ urlpatterns = [
     path('answers/cmd/', GetCMDAnswerHandler),
     path('answers/clb/', GetCallbackAnswerHandler), 
     path('answers/', GetAnswerHandler),
+    path('variables/', VariableHandler), 
     path('profiles/lvupdate/', ProfileUpdateHandler), 
     path('profiles/', ProfileHandler),
     path('states/', StateHandler),
 ]
-

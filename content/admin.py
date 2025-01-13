@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Keyboard, Button
-from .models import Status, Answer, Trigger, MessageGroup
+from .models import Status, Answer, Trigger, MessageGroup, Condition
 
 # Register your models here.
 @admin.register(Keyboard)
@@ -10,7 +10,12 @@ class ContentAdminKeyboard(admin.ModelAdmin):
 @admin.register(Button)
 class ContentAdminButton(admin.ModelAdmin):
     list_display = ["caption", "callback"]
-    
+
+
+@admin.register(Condition)
+class ContentAdminCondition(admin.ModelAdmin):
+    list_display = ["caption", "variable", "operation", "value"]
+
 @admin.register(Status)
 class ContentAdminStatus(admin.ModelAdmin):
     list_display = ["caption"]
