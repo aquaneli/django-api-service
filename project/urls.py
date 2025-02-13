@@ -20,6 +20,7 @@ from content.views import GetCMDAnswerHandler, GetTextAnswerHandler, GetAnswerHa
 from user_info.views import ProfileHandler, ProfileUpdateHandler
 from states.views import StateHandler, VariableHandler
 from botconfig.views import GetBotHandler
+from conversations.views import GetConversationsHandler
 
 admin.site.site_header = 'Администрирование бота'
 admin.site.index_title = 'Система менеджмента сообщений'
@@ -36,4 +37,5 @@ urlpatterns = [
     path('profiles/', ProfileHandler),
     path('states/', StateHandler),
     path('botconfig/', GetBotHandler),
+    path('conversations/', GetConversationsHandler),
 ]
