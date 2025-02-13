@@ -8,9 +8,13 @@ from django.db import models
 # Тип события 
 # Текс события
 
+class Choise(models.Model):
+    id = models.IntegerField()
+    text = models.CharField(max_length=100)
 
 class Event(models.Model):
     user_id = models.IntegerField()
     name = models.CharField(max_length=100)
-    type = models.CharField(max_length=100)
+    type = models.ForeignKey(Choise, on_delete=models.CASCADE)
+    time = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
