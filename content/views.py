@@ -6,12 +6,58 @@ from rest_framework.request import Request
 
 @api_view(["GET"])
 def GetAnswerHandler(request: Request):
-    handler_id = int(request.query_params.get('id', '0'))
+    handler_id = int(request.query_params.get('id', '-1'))
     resp = {
         "error": True,
         "message": "Not found",
         "data": {},
     }
+    if handler_id == '-1':
+        answers = Answer.objects.all()
+        resp["error"] = False
+        resp["message"] = "OK"
+        resp["data"] = []
+        for a in answers:
+            kb = {}
+            if a.kb is not None:
+                buttons = []
+                for b in a.kb.buttons.all():
+                        buttons.append({
+                            "caption": b.caption,
+                            "data": b.callback,
+                            "row": b.row,
+                            "order": b.order
+                        })
+                kb.update({
+                    "type": a.kb.type,
+                    "buttons": buttons
+                })
+            conditions = []
+            if a.conditions is not None:
+                for cond in a.conditions.all():
+                    conditions.append({
+                        "caption": cond.caption,
+                        "variable
+                        "operation": cond.operation,
+                        "value": cond.value
+                    })
+            resp["data"].append({
+                "trigger": {
+                    "id": a.trigger.pk,
+                    "type": a.trigger.type,
+                    "content": a.trigger.cont
+                },
+                "id": a.pk,
+                "answer": a.answer,
+                "isKb": a.kb is not None,
+                "keyboard": kb,
+                "conditions": conditions,
+                "set_variable": a.set_variable,
+                "set_value": a.set_value,
+                "state": a.state
+            })
+        return JsonResponse(resp, safe=False)
+
     try:
         content=Answer.objects.get(pk=handler_id)
         buttons = []
